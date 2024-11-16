@@ -282,8 +282,10 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 EventBus.getDefault().register(dialog);
                 dialog.setOnListener(new ApiDialog.OnListener() {
                     @Override
-                    public void onchange(String api) {
+                    public void onchange(String api,String newSyncAdd,String newSyncUser) {
                         Hawk.put(HawkConfig.API_URL, api);
+                        Hawk.put(HawkConfig.PLAY_RECORD_USER, newSyncUser);
+                        Hawk.put(HawkConfig.PLAY_RECORD_URL, newSyncAdd);
                         tvApi.setText(api);
                     }
                 });

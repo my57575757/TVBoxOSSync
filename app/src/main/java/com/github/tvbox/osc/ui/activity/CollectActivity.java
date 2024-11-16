@@ -113,7 +113,7 @@ public class CollectActivity extends BaseActivity {
                 if (vodInfo != null) {
                     if (delMode) {
                         collectAdapter.remove(position);
-                        RoomDataManger.deleteVodCollect(vodInfo.getId());
+                        RoomDataManger.deleteVodCollect(vodInfo.getId(),vodInfo);
                     } else {
                         if (ApiConfig.get().getSource(vodInfo.sourceKey) != null) {
                             Bundle bundle = new Bundle();

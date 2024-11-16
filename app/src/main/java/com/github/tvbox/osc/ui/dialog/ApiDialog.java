@@ -40,6 +40,8 @@ public class ApiDialog extends BaseDialog {
     private ImageView ivQRCode;
     private TextView tvAddress;
     private EditText inputApi;
+    private EditText inputSyncAdd;
+    private EditText inputSyncUser;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(RefreshEvent event) {
@@ -55,8 +57,12 @@ public class ApiDialog extends BaseDialog {
         ivQRCode = findViewById(R.id.ivQRCode);
         tvAddress = findViewById(R.id.tvAddress);
         inputApi = findViewById(R.id.input);
+        inputSyncAdd = findViewById(R.id.inputSyncAdd);
+        inputSyncUser = findViewById(R.id.inputSyncUser);
         //内置网络接口在此处添加
         inputApi.setText(Hawk.get(HawkConfig.API_URL, ""));
+        inputSyncAdd.setText(Hawk.get(HawkConfig.PLAY_RECORD_URL,""));
+        inputSyncUser.setText(Hawk.get(HawkConfig.PLAY_RECORD_USER,""));
         findViewById(R.id.inputSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +74,9 @@ public class ApiDialog extends BaseDialog {
                     if (history.size() > 30)
                         history.remove(30);
                     Hawk.put(HawkConfig.API_HISTORY, history);
-                    listener.onchange(newApi);
+                    String newSyncAdd = inputSyncAdd.getText().toString().trim();
+                    String newSyncUser = inputSyncUser.getText().toString().trim();
+                    listener.onchange(newApi,newSyncAdd,newSyncUser);
                     dismiss();
                 }
             }
@@ -89,7 +97,7 @@ public class ApiDialog extends BaseDialog {
                     @Override
                     public void click(String value) {
                         inputApi.setText(value);
-                        listener.onchange(value);
+                        listener.onchange(value,Hawk.get(HawkConfig.PLAY_RECORD_URL, ""),Hawk.get(HawkConfig.PLAY_RECORD_USER, ""));
                         dialog.dismiss();
                     }
 
@@ -146,6 +154,6 @@ public class ApiDialog extends BaseDialog {
     OnListener listener = null;
 
     public interface OnListener {
-        void onchange(String api);
+        void onchange(String api,String newSyncAdd,String newSyncUser);
     }
 }
