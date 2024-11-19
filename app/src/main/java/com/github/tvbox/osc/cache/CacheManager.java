@@ -199,7 +199,8 @@ public class CacheManager {
             conn = (HttpURLConnection) urlU.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(1000);
             // 设置请求头，如Content-Type
             conn.setRequestProperty("Content-Type", "application/json");
             String postParams = gson.toJson(param);
